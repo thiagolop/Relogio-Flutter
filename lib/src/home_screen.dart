@@ -20,23 +20,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        // physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
-        children: const [
-          DespertadorScreen(),
-          RelogioScreen(),
+        children:  [
+          const DespertadorScreen(),
+          const RelogioScreen(),
           CronometroScreen(),
-          CountdownScreem(),
+          const CountdownScreem(),
         ],
       ),
       bottomNavigationBar: ButtonNavigatorBar(
+        
         onIndexSelected: (index) => pagecontroller.animateToPage(
           index,
           duration: const Duration(milliseconds: 50),
           curve: Curves.ease,
         ),
 
-        // ignore: avoid_print
         itens: [
           ButtonBarItens(label: 'Despertador', icon: Icons.alarm),
           ButtonBarItens(label: 'Relogio', icon: Icons.watch_later_outlined),

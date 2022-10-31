@@ -1,51 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:relogio/src/cronometro/controller_cronometro.dart';
 
 class CronometroScreen extends StatefulWidget {
-  const CronometroScreen({Key? key}) : super(key: key);
+  CronometroScreen({Key? key}) : super(key: key);
+  final ControllerCronometro start = ControllerCronometro();
   @override
   State<CronometroScreen> createState() => _CronometroScreenState();
 }
 
 class _CronometroScreenState extends State<CronometroScreen> {
   int milisegundos = 0;
-  bool estacorrendo = false;
-  late Timer timer;
-  
-
-  void iniciarCronometro() {
-    if (!estacorrendo) {
-      timer = Timer.periodic(const Duration(microseconds: 100), (timer) {
-        milisegundos += 100;
-        setState(() {});
-      });
-      estacorrendo = true;
-    }
-  }
-
-  void pararCronometro() {
-    timer.cancel();
-    estacorrendo = false;
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-
-  String formaterTempo() {
-    Duration duration = Duration(microseconds: this.milisegundos);
-    String valores(int valor) {
-      return valor >= 10 ? "$valor" : "0$valor";
-    }
-    String horas = valores(duration.inHours.remainder(24));
-    String minutos = valores(duration.inMinutes.remainder(60));
-    String segundos = valores(duration.inSeconds.remainder(60));
-    String milisegundos = valores(duration.inMilliseconds.remainder(1000));
-    return '$horas:$minutos:$segundos:$milisegundos';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +18,12 @@ class _CronometroScreenState extends State<CronometroScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
-            child: Text(
-              formaterTempo(),
-              style: const TextStyle(fontSize: 60),
+            child: AnimatedBuilder(
+              animation: widget.start,
+              builder: (context, child) => Text(
+                widget.start.formaterTempo(),
+                style: const TextStyle(fontSize: 60),
+              ),
             ),
           ),
           SizedBox(
@@ -66,7 +33,9 @@ class _CronometroScreenState extends State<CronometroScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                onPressed: pararCronometro,
+                onPressed: () {
+                   widget.start.pararCronometro();
+                },
                 icon: const Icon(
                   Icons.pause,
                   size: 35,
@@ -76,7 +45,9 @@ class _CronometroScreenState extends State<CronometroScreen> {
                 width: 15,
               ),
               IconButton(
-                onPressed: iniciarCronometro,
+                onPressed: () {
+                  widget.start.iniciarCronometro();
+                },
                 icon: const Icon(
                   Icons.play_arrow,
                   size: 35,
@@ -87,8 +58,7 @@ class _CronometroScreenState extends State<CronometroScreen> {
               ),
               IconButton(
                 onPressed: () {
-                  milisegundos = 0;
-                  setState(() {});
+                  widget.start.zerarCronometro();
                 },
                 icon: const Icon(
                   Icons.stop,

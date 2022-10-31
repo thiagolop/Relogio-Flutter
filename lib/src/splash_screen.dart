@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
     return AnimatedSplashScreen(
       splash: Lottie.asset('assets/images/104261-loading-clock-animation.json'),
       backgroundColor: Colors.white,
-      nextScreen: const HomeScreen(),
+      nextScreen:  HomeScreen(),
       splashIconSize: 250,
       duration: 2000,
       pageTransitionType: PageTransitionType.bottomToTop,
