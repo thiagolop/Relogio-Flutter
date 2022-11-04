@@ -3,15 +3,14 @@ import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:relogio/widgets/round_button.dart';
 import 'package:flutter/cupertino.dart';
 
-class CountdownScreem extends StatefulWidget {
-  const CountdownScreem({Key? key}) : super(key: key);
+class CountdownScreem2 extends StatefulWidget {
+  const CountdownScreem2({Key? key}) : super(key: key);
 
   @override
-  State<CountdownScreem> createState() => _CountdownScreemState();
+  State<CountdownScreem2> createState() => _CountdownScreem2State();
 }
 
-class _CountdownScreemState extends State<CountdownScreem>
-    with TickerProviderStateMixin {
+class _CountdownScreem2State extends State<CountdownScreem2> with TickerProviderStateMixin {
   late AnimationController controller;
 
   bool isPlaying = false;
@@ -25,18 +24,16 @@ class _CountdownScreemState extends State<CountdownScreem>
 
   double progress = 1.0;
 
-  void notify(){
-    if(countText == '00:00:00'){
+  void notify() {
+    if (countText == '00:00:00') {
       FlutterRingtonePlayer.playNotification();
     }
   }
 
-
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 00));
 
     controller.addListener(() {
       notify();
@@ -126,8 +123,7 @@ class _CountdownScreemState extends State<CountdownScreem>
                         isPlaying = false;
                       });
                     } else {
-                      controller.reverse(
-                          from: controller.value == 0 ? 1.0 : controller.value);
+                      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
                       setState(() {
                         isPlaying = true;
                       });

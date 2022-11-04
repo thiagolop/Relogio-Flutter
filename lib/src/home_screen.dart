@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:relogio/src/contdown/countdown_screem.dart';
-import 'package:relogio/src/cronometro/cronometro_screen.dart';
+import 'package:relogio/src/cronometro/cronometro_presenter.dart';
 import 'package:relogio/src/despertador/despertador_screen.dart';
 import 'package:relogio/src/relogio/relogio_screen.dart';
 import 'package:relogio/widgets/button_bar/button_bar_itens.dart';
 import '../widgets/button_bar/button_navigator_bar.dart';
+import 'contdown/contdown_presenter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,21 +22,19 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
-        children:  [
-          const DespertadorScreen(),
-          const RelogioScreen(),
-          CronometroScreen(),
-          const CountdownScreem(),
+        children: const [
+          DespertadorScreen(),
+          RelogioScreen(),
+          CronometroPresenter(),
+          ContdownPresenter(),
         ],
       ),
       bottomNavigationBar: ButtonNavigatorBar(
-        
         onIndexSelected: (index) => pagecontroller.animateToPage(
           index,
           duration: const Duration(milliseconds: 50),
           curve: Curves.ease,
         ),
-
         itens: [
           ButtonBarItens(label: 'Despertador', icon: Icons.alarm),
           ButtonBarItens(label: 'Relogio', icon: Icons.watch_later_outlined),
