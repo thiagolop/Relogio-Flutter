@@ -33,8 +33,8 @@ class CountdownController extends ChangeNotifier {
       } else if (seconds == 0) {
         seconds = 59;
         _decreaseMinute();
-      } else if (minutes == 0) {
-        minutes = 59;
+      } else if (minutes == 0 && seconds == 0) {
+        hours--;
         _decreaseHour();
       } else {
         linearProgress -= each;
