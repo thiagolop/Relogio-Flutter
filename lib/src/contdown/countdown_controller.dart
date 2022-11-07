@@ -64,16 +64,11 @@ class CountdownController extends ChangeNotifier {
   }
   // bool estaCorrendo = false;
   // int minutes = 2;
-
   // int seconds = 0;
-
-  // int waitingTime = 0;
-
   // double linearProgress = 1;
-
   // Timer? timer;
-
   // double each = 0;
+  // Duration duration = const Duration();
 
   // void startTimer() {
   //   estaCorrendo = true;
@@ -113,6 +108,5 @@ class CountdownController extends ChangeNotifier {
   //     each = (100 / (seconds) / 100);
   //   }
 
-  //   print(each);
   // }
 }

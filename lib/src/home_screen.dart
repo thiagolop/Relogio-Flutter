@@ -5,6 +5,9 @@ import 'package:relogio/src/relogio/relogio_screen.dart';
 import 'package:relogio/widgets/button_bar/button_bar_itens.dart';
 import '../widgets/button_bar/button_navigator_bar.dart';
 import 'contdown/contdown_presenter.dart';
+import 'contdown/countdown_controller.dart';
+import 'contdown/countdown_screem2.dart';
+import 'cronometro/controller_cronometro.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +18,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final pagecontroller = PageController();
+  late CountdownController controllerContdown;
+  late ControllerCronometro controllerCronometro;
+
+  @override
+  void initState() {
+    super.initState();
+    controllerCronometro = ControllerCronometro();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
-        children: const [
-          DespertadorScreen(),
-          RelogioScreen(),
-          CronometroPresenter(),
-          ContdownPresenter(),
+        children: [
+          const CountdownScreem2(),
+          const RelogioScreen(),
+          CronometroPresenter(controllerCronometro: controllerCronometro),
+          const ContdownPresenter(),
         ],
       ),
       bottomNavigationBar: ButtonNavigatorBar(
