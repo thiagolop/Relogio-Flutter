@@ -2,111 +2,82 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CountdownController extends ChangeNotifier {
-  DateTime dateTimeStop = DateTime(1);
-  DateTime dateTimeCurrent = DateTime(1);
-  bool estacorrendo = false;
-  late Timer timer;
+  bool isStarted = false;
+  int hours = 0;
+  int minutes = 0;
+  int seconds = 0;
+  double linearProgress = 1;
+  Timer? timer;
+  double each = 0;
+  Duration duration = const Duration();
 
-  Duration _durationTotal = const Duration();
-  Duration get durationTotal => _durationTotal;
-  set durationTotal(Duration value) {
-    _durationTotal = value;
+  void setTimer(Duration duration) {
+    this.duration = duration;
+    hours = duration.inHours;
+    minutes = duration.inMinutes % 60;
+    seconds = duration.inSeconds % 60;
+    each = 1 / duration.inSeconds;
+    linearProgress = 1;
     notifyListeners();
   }
 
-  int get totalMilliseconds => durationTotal.inMilliseconds;
-  int get elapsedMilliseconds => dateTimeStop.difference(dateTimeCurrent).inMilliseconds;
-  Duration get remainingDuration => dateTimeCurrent.difference(dateTimeStop);
-  double get circularProgress => totalMilliseconds == 0 ? 0 : elapsedMilliseconds / totalMilliseconds;
-  String get timerText {
-    Duration duration = remainingDuration;
-    return '${(duration.inHours).toString().padLeft(2, '0')} : ${(duration.inMinutes % 60).toString().padLeft(2, '0')} : ${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-  }
-
-  play() {
-    estacorrendo = true;
-    timer = Timer.periodic(const Duration(microseconds: 100), (timer) {
-      if (estacorrendo) {
-      } else {}
+  void startTimer() {
+    isStarted = true;
+    notifyListeners();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (minutes == 0 && seconds == 0 && hours == 0) {
+        isStarted = false;
+        linearProgress = 0;
+        stopTimer();
+        notifyListeners();
+      } else if (seconds == 0) {
+        seconds = 59;
+        _decreaseMinute();
+      } else if (minutes == 0) {
+        minutes = 59;
+        _decreaseHour();
+      } else {
+        linearProgress -= each;
+        _decreaseSecond();
+      }
     });
   }
 
-  pause() {
-    timer.cancel();
-    estacorrendo = false;
+  void restartTimer(int minutes, int seconds) {
+    stopTimer();
+    this.minutes = minutes;
+    this.seconds = seconds;
+    linearProgress = 1;
+    startTimer();
+    calculateToLinearProgress();
+  }
+
+  void stopTimer() {
+    timer?.cancel();
+    isStarted = false;
     notifyListeners();
   }
 
-  resume() {}
-
-  reset() {
-    dateTimeStop = DateTime.now().add(durationTotal);
-    timer = Timer.periodic(const Duration(microseconds: 100), (timer) {
-      dateTimeCurrent = DateTime.now();
-      notifyListeners();
-    });
-    estacorrendo = true;
+  _decreaseSecond() {
+    seconds--;
     notifyListeners();
   }
 
-  stop() {
-    timer.cancel();
-    estacorrendo = false;
+  _decreaseMinute() {
+    minutes--;
     notifyListeners();
   }
 
-  togglePause() {
-    if (estacorrendo) {
-      pause();
+  _decreaseHour() {
+    hours--;
+    notifyListeners();
+  }
+
+  void calculateToLinearProgress() {
+    if (minutes > 0) {
+      each = (100 / (minutes * 60 + seconds) / 100);
     } else {
-      resume();
+      each = (100 / (seconds) / 100);
     }
   }
-  // bool estaCorrendo = false;
-  // int minutes = 2;
-  // int seconds = 0;
-  // double linearProgress = 1;
-  // Timer? timer;
-  // double each = 0;
-  // Duration duration = const Duration();
-
-  // void startTimer() {
-  //   estaCorrendo = true;
-  //   timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (minutes == 0 && seconds == 0) {
-  //       estaCorrendo = false;
-  //       linearProgress = 0;
-  //       stopTimer();
-  //     } else if (seconds == 0) {
-  //       seconds = 59;
-  //       minutes--;
-  //     } else {
-  //       linearProgress -= each;
-  //       seconds--;
-  //     }
-  //   });
-  // }
-
-  // void restartTimer(int minutes, int seconds) {
-  //   stopTimer();
-  //   this.minutes = minutes;
-  //   this.seconds = seconds;
-  //   linearProgress = 1;
-  //   startTimer();
-  //   calculateToLinearProgress();
-  // }
-
-  // void stopTimer() {
-  //   timer?.cancel();
-  //   estaCorrendo = false;
-  // }
-
-  // void calculateToLinearProgress() {
-  //   if (minutes > 0) {
-  //     each = (100 / (minutes * 60 + seconds) / 100);
-  //   } else {
-  //     each = (100 / (seconds) / 100);
-  //   }
-
-  // }
 }

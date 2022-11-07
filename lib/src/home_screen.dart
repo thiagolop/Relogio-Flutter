@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
         children: [
-          const CountdownScreem2(),
+          const DespertadorScreen(),
           const RelogioScreen(),
           CronometroPresenter(controllerCronometro: controllerCronometro),
           const ContdownPresenter(),

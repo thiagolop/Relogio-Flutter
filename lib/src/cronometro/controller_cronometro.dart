@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 
 class ControllerCronometro extends ChangeNotifier {
-  ControllerCronometro() {
-    // log('chamou de novo');
-  }
   DateTime dateTimeStart = DateTime(1);
   DateTime dateTimeCurrent = DateTime(1);
   bool estacorrendo = false;
-  late Timer timer;
+  late Timer? timer;
 
   void iniciarCronometro() {
     dateTimeStart = DateTime.now();
@@ -30,7 +27,7 @@ class ControllerCronometro extends ChangeNotifier {
   }
 
   void pararCronometro() {
-    timer.cancel();
+    timer?.cancel();
     estacorrendo = false;
   }
 
