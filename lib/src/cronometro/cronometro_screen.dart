@@ -12,18 +12,17 @@ class CronometroScreen extends StatefulWidget {
 }
 
 class _CronometroScreenState extends State<CronometroScreen> {
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    
-  }
+  // }
 
-  @override
-  void dispose() {
-    widget.controllerCronometro.pararCronometro();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.controllerCronometro.pararCronometro();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

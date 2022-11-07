@@ -20,6 +20,6 @@ class _ContdownPresenterState extends State<ContdownPresenter> {
 
   @override
   Widget build(BuildContext context) {
-    return CountdownScreen(countdownController: controllerContdown);
+    return const CountdownScreen();
   }
 }
