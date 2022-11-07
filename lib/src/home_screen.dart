@@ -6,7 +6,6 @@ import 'package:relogio/widgets/button_bar/button_bar_itens.dart';
 import '../widgets/button_bar/button_navigator_bar.dart';
 import 'contdown/contdown_presenter.dart';
 import 'contdown/countdown_controller.dart';
-import 'contdown/countdown_screem2.dart';
 import 'cronometro/controller_cronometro.dart';
 
 class HomeScreen extends StatefulWidget {
