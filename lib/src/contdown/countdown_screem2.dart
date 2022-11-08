@@ -11,14 +11,14 @@ class CountdownScreem2 extends StatefulWidget {
 }
 
 class _CountdownScreem2State extends State<CountdownScreem2> with TickerProviderStateMixin {
-  late AnimationController controller;
+  late AnimationController animatedcontroller;
 
   bool isPlaying = false;
 
   String get countText {
-    Duration count = controller.duration! * controller.value;
-    return controller.isDismissed
-        ? '${(controller.duration!.inHours).toString().padLeft(2, '0')} : ${(controller.duration!.inMinutes % 60).toString().padLeft(2, '0')} : ${(controller.duration!.inSeconds % 60).toString().padLeft(2, '0')}'
+    Duration count = animatedcontroller.duration! * animatedcontroller.value;
+    return animatedcontroller.isDismissed
+        ? '${(animatedcontroller.duration!.inHours).toString().padLeft(2, '0')} : ${(animatedcontroller.duration!.inMinutes % 60).toString().padLeft(2, '0')} : ${(animatedcontroller.duration!.inSeconds % 60).toString().padLeft(2, '0')}'
         : '${(count.inHours).toString().padLeft(2, '0')} : ${(count.inMinutes % 60).toString().padLeft(2, '0')} : ${(count.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
@@ -33,13 +33,13 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 00));
+    animatedcontroller = AnimationController(vsync: this, duration: const Duration(seconds: 00));
 
-    controller.addListener(() {
+    animatedcontroller.addListener(() {
       notify();
-      if (controller.isAnimating) {
+      if (animatedcontroller.isAnimating) {
         setState(() {
-          progress = controller.value;
+          progress = animatedcontroller.value;
         });
       } else {
         setState(() {
@@ -52,7 +52,7 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
 
   @override
   void dispose() {
-    controller.dispose();
+    animatedcontroller.dispose();
     super.dispose();
   }
 
@@ -71,23 +71,23 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
                     height: 300,
                     width: 300,
                     child: CircularProgressIndicator(
-                      value: controller.value,
+                      value: animatedcontroller.value,
                       backgroundColor: Colors.grey.shade300,
                       strokeWidth: 6,
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (controller.isDismissed) {
+                      if (animatedcontroller.isDismissed) {
                         showModalBottomSheet(
                           context: context,
                           builder: (context) => SizedBox(
                             height: 300,
                             child: CupertinoTimerPicker(
-                              initialTimerDuration: controller.duration!,
+                              initialTimerDuration: animatedcontroller.duration!,
                               onTimerDurationChanged: (time) {
                                 setState(() {
-                                  controller.duration = time;
+                                  animatedcontroller.duration = time;
                                 });
                               },
                             ),
@@ -96,7 +96,7 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
                       }
                     },
                     child: AnimatedBuilder(
-                      animation: controller,
+                      animation: animatedcontroller,
                       builder: (context, child) => Text(
                         countText,
                         style: const TextStyle(
@@ -117,13 +117,13 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (controller.isAnimating) {
-                      controller.stop();
+                    if (animatedcontroller.isAnimating) {
+                      animatedcontroller.stop();
                       setState(() {
                         isPlaying = false;
                       });
                     } else {
-                      controller.reverse(from: controller.value == 0 ? 1.0 : controller.value);
+                      animatedcontroller.reverse(from: animatedcontroller.value == 0 ? 1.0 : animatedcontroller.value);
                       setState(() {
                         isPlaying = true;
                       });
@@ -135,7 +135,7 @@ class _CountdownScreem2State extends State<CountdownScreem2> with TickerProvider
                 ),
                 GestureDetector(
                   onTap: () {
-                    controller.reset();
+                    animatedcontroller.reset();
                     setState(() {
                       isPlaying = false;
                     });

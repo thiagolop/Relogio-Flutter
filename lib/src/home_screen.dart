@@ -5,7 +5,6 @@ import 'package:relogio/src/relogio/relogio_screen.dart';
 import 'package:relogio/widgets/button_bar/button_bar_itens.dart';
 import '../widgets/button_bar/button_navigator_bar.dart';
 import 'contdown/contdown_presenter.dart';
-import 'contdown/countdown_controller.dart';
 import 'cronometro/controller_cronometro.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final pagecontroller = PageController();
-  late CountdownController controllerContdown;
   late ControllerCronometro controllerCronometro;
 
   @override

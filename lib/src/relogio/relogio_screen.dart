@@ -17,7 +17,11 @@ class _RelogioScreenState extends State<RelogioScreen> {
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ClockWidget(TimeModel(12, 38, 56))],
+          children: [
+            Center(
+              child: ClockWidget(TimeModel(6, 60, 40)),
+            )
+          ],
         )
       ],
     );

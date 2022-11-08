@@ -6,6 +6,7 @@ class CountdownController extends ChangeNotifier {
   int hours = 0;
   int minutes = 0;
   int seconds = 0;
+  int miliseconds = 0;
   double linearProgress = 1;
   Timer? timer;
   double each = 0;
@@ -16,6 +17,7 @@ class CountdownController extends ChangeNotifier {
     hours = duration.inHours;
     minutes = duration.inMinutes % 60;
     seconds = duration.inSeconds % 60;
+    // miliseconds = duration.inMilliseconds % 1000;
     each = 1 / duration.inSeconds;
     linearProgress = 1;
     notifyListeners();
@@ -43,13 +45,14 @@ class CountdownController extends ChangeNotifier {
     });
   }
 
-  void restartTimer(int minutes, int seconds) {
+  void restartTimer() {
     stopTimer();
-    this.minutes = minutes;
-    this.seconds = seconds;
+    minutes = 0;
+    seconds = 0;
+    hours = 0;
     linearProgress = 1;
-    startTimer();
     calculateToLinearProgress();
+    notifyListeners();
   }
 
   void stopTimer() {

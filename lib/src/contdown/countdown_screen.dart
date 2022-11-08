@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:relogio/src/contdown/countdown_controller.dart';
-
 import '../../widgets/round_button.dart';
 
 class CountdownScreen extends StatefulWidget {
@@ -27,18 +26,15 @@ class _CountdownScreenState extends State<CountdownScreen> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // SizedBox(
-                    //   height: 300,
-                    //   width: 300,
-                    //   child: AnimatedBuilder(
-                    //     animation: widget.countdownController,
-                    //     builder: (context, child) => CircularProgressIndicator(
-                    //       // value: widget.countdownController.circularProgress,
-                    //       backgroundColor: Colors.grey.shade300,
-                    //       strokeWidth: 6,
-                    //     ),
-                    //   ),
-                    // ),
+                    SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: (CircularProgressIndicator(
+                        value: cdController.linearProgress,
+                        backgroundColor: Colors.grey.shade300,
+                        strokeWidth: 6,
+                      )),
+                    ),
                     GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -77,10 +73,10 @@ class _CountdownScreenState extends State<CountdownScreen> {
                     onTap: () => (cdController.isStarted) ? cdController.stopTimer() : cdController.startTimer(),
                     child: RoundButton(icon: cdController.isStarted ? Icons.pause : Icons.play_arrow),
                   ),
-                  // GestureDetector(
-                  //   onTap: cdController.reset,
-                  //   child: const RoundButton(icon: Icons.stop),
-                  // ),
+                  GestureDetector(
+                    onTap: cdController.restartTimer,
+                    child: const RoundButton(icon: Icons.stop),
+                  ),
                 ],
               ),
             ),
