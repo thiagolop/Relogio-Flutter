@@ -1,94 +1,107 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:relogio/src/app_style.dart';
-import 'package:relogio/src/relogio/date_time_model.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
-class ClockWidget extends StatefulWidget {
-  const ClockWidget(this.time, {Key? key}) : super(key: key);
-  final TimeModel time;
-
-  @override
-  State<ClockWidget> createState() => _ClockWidgetState();
-}
-
-class _ClockWidgetState extends State<ClockWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [BoxShadow(color: AppStyle.primaryColor.withAlpha(150), blurRadius: 38.0)]),
-      height: 300,
-      width: 300,
-      child: CustomPaint(
-        painter: ClockPaiter(widget.time),
-      ),
-    );
-  }
-}
-
-class ClockPaiter extends CustomPainter {
-  // lets's set the time parameter
-  TimeModel? time;
-  ClockPaiter(this.time);
-
+class ShapesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    // lets's calculate the time possition
-    double secRad = ((pi / 2) - (pi / 30) * time!.sec) % (2 * pi);
-    double minRad = ((pi / 2) - (pi / 30) * time!.min) % (2 * pi);
-    double hourRad = ((pi / 2) - (pi / 6) * time!.hour) % (2 * pi);
+    var angle = vector.radians(-90);
 
-    // Points Coordinates
-    var centerX = size.width / 2;
-    var centerY = size.height / 2;
-    var center = Offset(centerX, centerY);
-    var radius = min(centerX, centerY);
+    final double r = sqrt(size.width * size.width + size.height * size.height) / 2;
+    final alpha = atan(size.height / size.width);
+    final beta = alpha + angle;
+    final shiftY = r * sin(beta);
+    final shiftX = r * cos(beta);
+    final translateX = size.width / 2 - shiftX;
+    final translateY = size.height / 2 - shiftY;
+    canvas.translate(translateX, translateY);
+    canvas.rotate(angle);
 
-    //setting the clock coordinate
-    var secHeight = radius / 2;
-    var minHeight = radius / 2 - 10;
-    var hourHeight = radius / 2 - 25;
+    DateTime now = DateTime.now();
+    final paint = Paint();
+    var center = Offset(size.width / 2, size.height / 2);
+    paint.color = Colors.white;
+    canvas.drawCircle(center, (size.width / 3) - 5, paint);
+    paint.strokeCap = StrokeCap.round;
 
-    var seconds = Offset(centerX + secHeight * cos(secRad), centerY - secHeight * sin(secRad));
-    var minutes = Offset(centerX + minHeight * cos(minRad), centerY - minHeight * sin(minRad));
-    var hours = Offset(centerX + hourHeight * cos(hourRad), centerY - hourHeight * sin(hourRad));
-    // setting the Brush
-    var fillBrush = Paint()
-      ..color = AppStyle.primaryColor
-      ..strokeCap = StrokeCap.round;
+    /**
+     * Seconds line
+     */
+    final secondsP1 = center;
+    double secondDegree = 360 / 60 * now.second;
+    // x = cx + r * cos(a)
+    double x = (size.width / 2) + (size.width / 3 - 20) * cos(vector.radians(secondDegree));
+    // y = cy + r * sin(a)
+    double y = (size.height / 2) + (size.width / 3 - 20) * sin(vector.radians(secondDegree));
 
-    var centerDotBrush = Paint()..color = const Color(0xFFEAECFF);
-    // setting the hnad brush
-    var secBrush = Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 2
-      ..strokeJoin = StrokeJoin.round;
-    var minBrush = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 3
-      ..strokeJoin = StrokeJoin.round;
-    var hoursBrush = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 4
-      ..strokeJoin = StrokeJoin.round;
-    // drawing the body
-    canvas.drawCircle(center, radius - 40, fillBrush);
-    // drawing the clock hands
-    canvas.drawLine(center, seconds, secBrush);
-    canvas.drawLine(center, minutes, minBrush);
-    canvas.drawLine(center, hours, hoursBrush);
-    // drawing ther center dot
-    canvas.drawCircle(center, 16, centerDotBrush);
+    final secondsP2 = Offset(x, y);
+
+    paint.color = const Color.fromARGB(255, 234, 0, 0);
+    paint.strokeWidth = 2;
+
+    canvas.drawLine(secondsP1, secondsP2, paint);
+
+    /**
+     * Minutes line
+     */
+    final minutesP1 = center;
+    double minuteDegree = 360 / 60 * now.minute;
+    // x = cx + r * cos(a)
+    x = (size.width / 2) + (size.width / 3 - 40) * cos(vector.radians(minuteDegree));
+    // y = cy + r * sin(a)
+    y = (size.height / 2) + (size.width / 3 - 40) * sin(vector.radians(minuteDegree));
+
+    final minutesP2 = Offset(x, y);
+
+    paint.color = const Color.fromARGB(255, 0, 0, 0);
+    paint.strokeWidth = 3;
+    canvas.drawLine(minutesP1, minutesP2, paint);
+
+    /**
+     * Hours line
+     */
+    final p1 = center;
+    double hourseDegree = 360 / 12 * (now.hour - 12);
+    hourseDegree += 30 / 60 * now.minute;
+    // x = cx + r * cos(a)
+    x = (size.width / 2) + (size.width / 3 - 60) * cos(vector.radians(hourseDegree));
+    // y = cy + r * sin(a)
+    y = (size.height / 2) + (size.width / 3 - 60) * sin(vector.radians(hourseDegree));
+
+    final p2 = Offset(x, y);
+
+    paint.color = const Color.fromARGB(255, 0, 0, 0);
+    paint.strokeWidth = 4;
+
+    canvas.drawLine(p1, p2, paint);
+
+    /**
+     * External lines
+     */
+    for (int i = 0; i < 60; i++) {
+      // Calculate line position
+      double minute = 360 / 60 * i;
+
+      // Set style every 5 minutes
+      paint.color = (i % 5 == 0) ? const Color.fromARGB(255, 240, 240, 240) : Colors.white;
+      paint.strokeWidth = (i % 5 == 0) ? 4 : 1;
+
+      int distance = (i % 5 == 0) ? 10 : 15;
+
+      double x1 = (size.width / 2) + (size.width / 3 + distance) * cos(vector.radians(minute));
+      double y1 = (size.height / 2) + (size.width / 3 + distance) * sin(vector.radians(minute));
+      final p1 = Offset(x1, y1);
+
+      double x2 = (size.width / 2) + (size.width / 3 + 30) * cos(vector.radians(minute));
+      double y2 = (size.height / 2) + (size.width / 3 + 30) * sin(vector.radians(minute));
+      final p2 = Offset(x2, y2);
+
+      canvas.drawLine(p1, p2, paint);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
