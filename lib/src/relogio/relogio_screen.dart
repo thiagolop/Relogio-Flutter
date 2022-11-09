@@ -13,24 +13,27 @@ class RelogioScreen extends StatefulWidget {
 class _RelogioScreenState extends State<RelogioScreen> {
   @override
   Widget build(BuildContext context) {
-    return TimerBuilder.periodic(
-      const Duration(seconds: 1),
-      builder: (context) {
-        var currentTime = DateTime.now();
-        String seconds = currentTime.second < 10 ? "0${currentTime.second}" : "${currentTime.second}";
-        String minute = currentTime.minute < 10 ? "0${currentTime.minute}" : "${currentTime.minute}";
-        String hour = currentTime.hour < 10 ? "0${currentTime.hour}" : "${currentTime.hour}";
-        return Column(
-          children: [
-            Center(
-                child: CustomPaint(
-              painter: ShapesPainter(),
-              child: Container(height: 500),
-            )),
-            Center(child: Text("$hour:$minute:$seconds", style: AppStyle.mainText))
-          ],
-        );
-      },
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      body: TimerBuilder.periodic(
+        const Duration(seconds: 1),
+        builder: (context) {
+          var currentTime = DateTime.now();
+          String seconds = currentTime.second < 10 ? "0${currentTime.second}" : "${currentTime.second}";
+          String minute = currentTime.minute < 10 ? "0${currentTime.minute}" : "${currentTime.minute}";
+          String hour = currentTime.hour < 10 ? "0${currentTime.hour}" : "${currentTime.hour}";
+          return Column(
+            children: [
+              Center(
+                  child: CustomPaint(
+                painter: ShapesPainter(),
+                child: Container(height: 500),
+              )),
+              Center(child: Text("$hour:$minute:$seconds", style: AppStyle.mainText))
+            ],
+          );
+        },
+      ),
     );
   }
 }

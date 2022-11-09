@@ -27,13 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pagecontroller,
         children: [
-          const DespertadorScreen(),
           const RelogioScreen(),
+          const DespertadorScreen(),
           CronometroPresenter(controllerCronometro: controllerCronometro),
           const ContdownPresenter(),
         ],
@@ -45,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
           curve: Curves.ease,
         ),
         itens: [
-          ButtonBarItens(label: 'Despertador', icon: Icons.alarm),
           ButtonBarItens(label: 'Relogio', icon: Icons.watch_later_outlined),
+          ButtonBarItens(label: 'Despertador', icon: Icons.alarm),
           ButtonBarItens(label: 'Cronometro', icon: Icons.timer_outlined),
           ButtonBarItens(label: 'Countdown', icon: Icons.hourglass_empty),
         ],

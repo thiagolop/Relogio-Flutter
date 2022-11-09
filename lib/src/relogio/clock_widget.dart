@@ -1,8 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
-class ShapesPainter extends CustomPainter {
+class ShapesPainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size) {
     var angle = vector.radians(-90);
@@ -23,15 +25,11 @@ class ShapesPainter extends CustomPainter {
     paint.color = Colors.white;
     canvas.drawCircle(center, (size.width / 3) - 5, paint);
     paint.strokeCap = StrokeCap.round;
-
-    /**
-     * Seconds line
-     */
+    
+    // Seconds line
     final secondsP1 = center;
     double secondDegree = 360 / 60 * now.second;
-    // x = cx + r * cos(a)
     double x = (size.width / 2) + (size.width / 3 - 20) * cos(vector.radians(secondDegree));
-    // y = cy + r * sin(a)
     double y = (size.height / 2) + (size.width / 3 - 20) * sin(vector.radians(secondDegree));
 
     final secondsP2 = Offset(x, y);
@@ -41,14 +39,10 @@ class ShapesPainter extends CustomPainter {
 
     canvas.drawLine(secondsP1, secondsP2, paint);
 
-    /**
-     * Minutes line
-     */
+    // Minutes line
     final minutesP1 = center;
     double minuteDegree = 360 / 60 * now.minute;
-    // x = cx + r * cos(a)
     x = (size.width / 2) + (size.width / 3 - 40) * cos(vector.radians(minuteDegree));
-    // y = cy + r * sin(a)
     y = (size.height / 2) + (size.width / 3 - 40) * sin(vector.radians(minuteDegree));
 
     final minutesP2 = Offset(x, y);
@@ -57,15 +51,11 @@ class ShapesPainter extends CustomPainter {
     paint.strokeWidth = 3;
     canvas.drawLine(minutesP1, minutesP2, paint);
 
-    /**
-     * Hours line
-     */
+    // Hours line
     final p1 = center;
     double hourseDegree = 360 / 12 * (now.hour - 12);
     hourseDegree += 30 / 60 * now.minute;
-    // x = cx + r * cos(a)
     x = (size.width / 2) + (size.width / 3 - 60) * cos(vector.radians(hourseDegree));
-    // y = cy + r * sin(a)
     y = (size.height / 2) + (size.width / 3 - 60) * sin(vector.radians(hourseDegree));
 
     final p2 = Offset(x, y);
@@ -75,14 +65,11 @@ class ShapesPainter extends CustomPainter {
 
     canvas.drawLine(p1, p2, paint);
 
-    /**
-     * External lines
-     */
+  
+      // External linee
     for (int i = 0; i < 60; i++) {
       // Calculate line position
       double minute = 360 / 60 * i;
-
-      // Set style every 5 minutes
       paint.color = (i % 5 == 0) ? const Color.fromARGB(255, 240, 240, 240) : Colors.white;
       paint.strokeWidth = (i % 5 == 0) ? 4 : 1;
 
