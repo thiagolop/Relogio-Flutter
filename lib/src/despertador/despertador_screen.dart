@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:relogio/src/data.dart';
+import 'button_create_alarm.dart';
+import 'data_alarm.dart';
 import 'despertador_alarm.dart';
 
 class DespertadorScreen extends StatefulWidget {
@@ -21,8 +22,16 @@ class _DespertadorScreenState extends State<DespertadorScreen> {
           Expanded(
             child: ListView(
               children: alarms.map((alarm) {
-                return const DespertadorAlarm();
-              }).toList(),
+                return const Padding(
+                  padding: EdgeInsets.only(left: 12, right: 12),
+                  child: DespertadorAlarm(),
+                );
+              }).followedBy([
+                const Padding(
+                  padding: EdgeInsets.only(left: 12, right: 12),
+                  child: ButtonCreateAlarm(),
+                ),
+              ]).toList(),
             ),
           ),
         ],

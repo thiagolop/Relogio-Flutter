@@ -7,3 +7,5 @@ class AppStyle {
 
   static TextStyle mainText = const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 52);
 }
+
+

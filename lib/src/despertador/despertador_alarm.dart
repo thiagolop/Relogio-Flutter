@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relogio/src/despertador/relogio_theme_date.dart';
 
 class DespertadorAlarm extends StatelessWidget {
   const DespertadorAlarm({Key? key}) : super(key: key);
@@ -9,9 +10,13 @@ class DespertadorAlarm extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 32),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [Colors.purple, Colors.red], begin: Alignment.centerLeft, end: Alignment.centerRight),
+        gradient:  LinearGradient(
+          colors: GradientColors.blue,
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
         boxShadow: [
-          BoxShadow(color: Colors.red.withOpacity(0.4), blurRadius: 8, spreadRadius: 2, offset: const Offset(4, 4)),
+          BoxShadow(color: Colors.white.withOpacity(0.2), blurRadius: 8, spreadRadius: 2, offset: const Offset(4, 4)),
         ],
         borderRadius: const BorderRadius.all(Radius.circular(24)),
       ),
