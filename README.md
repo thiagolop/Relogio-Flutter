@@ -1,16 +1,14 @@
 # relogio
 
-A new Flutter project.
+O app é basicamente uma replica do relogio do Android, o codigo apresenta um pouco da minha evolucao durante os estudos com flutter, uma vez que me propus a aprender do zero o Dart/Flutter.
 
-## Getting Started
+# Aprendizado:
 
-This project is a starting point for a Flutter application.
+Singleton, ChangeNotifier , ButtonNavigatorBar, Lottie, Provider.
 
-A few resources to get you started if this is your first Flutter project:
+# Quick view
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![WhatsApp Video 2022-11-10 at 21 06 24](https://user-images.githubusercontent.com/109871891/201232363-99fda533-ce49-4f89-8a95-ff8e7e625da3.gif)
+ 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
